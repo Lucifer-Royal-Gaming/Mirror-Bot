@@ -48,22 +48,29 @@ def stats(update, context):
     memory = psutil.virtual_memory().percent
     disk = psutil.disk_usage("/").percent
     stats = (
-        f"<b>Bot Uptime:</b> {currentTime}\n"
-        f"<b>Total disk space:</b> {total}\n"
-        f"<b>Used:</b> {used}  "
-        f"<b>Free:</b> {free}\n\n"
-        f"Data Usage\n<b>Upload:</b> {sent}\n"
-        f"<b>Down:</b> {recv}\n\n"
-        f"<b>CPU:</b> {cpuUsage}% "
-        f"<b>RAM:</b> {memory}% "
-        f"<b>Disk:</b> {disk}%"
+        f'╭───《🌐 <b>Bᴏᴛ SᴛᴀᴛɪSᴛɪᴄS 🌐</b>》\n│\n'\
+            f'├─🤖 <b>Bot Uptime  </b> {currentTime}\n│\n'\
+            f'├─💽 <b>Total Disk Space  </b> {total}\n'\
+            f'├─💻 <b>Used:</b> {used} | 💾<b>Free:</b> {free}\n│\n'\
+            f'├─📤 <b>Upload  </b> {sent}\n'\
+            f'├─📥 <b>Download  </b> {recv}\n│\n'\
+            f'├─🖥️ <b>CPU  </b> {cpuUsage}%\n'\
+            f'├─📏 <b>RAM  </b> {mem_p}%\n'\
+            f'├─💿 <b>DISK  </b> {disk}%\n'\
+            f'├─🛰️ <b>Physical Cores  </b> {p_core}\n'\
+            f'├─⚙️ <b>Total Cores  </b> {t_core}\n'\
+            f'├─⚡ <b>SWAP  </b> {swap_t} | <b>Used ⇢ </b> {swap_p}%\n│\n'\
+            f'├─💽 <b>Memory Total  </b> {mem_t}\n'\
+            f'├─💾 <b>Memory Free  </b> {mem_a}\n'\
+            f'├─💻 <b>Memory Used  </b> {mem_u}\n│\n'\
+            f'╰───《☣️ <b>@LuciferMorningstarOfficials</b> ☣️》\n'
     )
     sendMessage(stats, context.bot, update)
 
 def start(update, context):
     buttons = button_build.ButtonMaker()
-    buttons.buildbutton("Repo", "https://github.com/harshpreets63/Mirror-Bot")
-    buttons.buildbutton("Channel", "https://t.me/HarshMirror")
+    buttons.buildbutton("JOIN CHANNEL", "https://t.me/torrenttodrives")
+    buttons.buildbutton("OWNER", "@LuciferMorningstarOfficials")
     reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         start_string = f'''
@@ -87,6 +94,12 @@ def restart(update, context):
         f.write(f"{restart_message.chat.id}\n{restart_message.message_id}\n")
     fs_utils.clean_all()
     os.execl(executable, executable, "-m", "bot")
+    
+    if BOT_PM:
+            message = sendMessage(f'Dear {uname},\n\nIf You Want To Use Me, You Have To Join @{CHANNEL_USERNAME}\n\n<b>NOTE:</b> All The Uploaded Links and Leeched Files By You Will Be Sent Here In Your Private Chat From Now.', context.bot, update)
+            Thread(target=auto_delete_message, args=(context.bot, update.message, message)).start()
+            return
+        else:
 
 
 def ping(update, context):
